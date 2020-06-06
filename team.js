@@ -14,6 +14,7 @@ request.onload = function() {
   var empName = document.getElementById('empname');
   var empBio = document.getElementById('empbio');
   var empRoles = document.getElementById('rolename');
+  var empRoleColor;
   var empId= [];
   var empPic;
   var empRoleId = [];
@@ -23,24 +24,18 @@ request.onload = function() {
 
   
   if (request.status >= 200 && request.status < 400) {
+    
     for(eid in data){
         //console.log(data[i].employeefname)
         empId.push(data[eid].employeeid);
     }
 
-    //trying to fetch the roles data with name and color
-    //store in array name as key and color as value
-    for(rid in data){
-      var roleData = fetch(url + 'fetchroles.php');
-      console.log(roleData);
-      //empRoleId.push()
-    }
     //console.log(empId);
     for(i in data){
       isFeatured.innerHTML += data[i].employeeisfeatured;
 
         if(data[i].employeeisfeatured == 0){
-          isFeatured.innterHTML = isFeatured.style.display = "none";
+          isFeatured.innterHTML = isFeatured.style.display = "inline";
         }
         var empPic = data[i].employeehaspic;
         if(empPic == 1){
@@ -51,9 +46,14 @@ request.onload = function() {
         empName.innerHTML += "<br>" + data[i].employeefname;
         empName.innerHTML += data[i].employeelname + "<br>";
         empBio.innerHTML += data[i].employeebio + "<br>";
+
         for(j in data[i].roles){
+         
           //console.log(data[i].roles[j].roleid);
+         
+          empRoleColor = data[i].roles[j].rolecolor;
           empRoles.innerHTML += data[i].roles[j].rolename;
+          empRoles.style.backgroundColor = empRoleColor;
         }
     }
     
